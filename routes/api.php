@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+// use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,9 @@ Route::get('/user', function (Request $request) {
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
-  $api->get('hello', function () {
-     return "Hello...";
- });
+ //  $api->get('hello', function () {
+ //     return "Hello...";
+ $api->resource('articles','App\Http\Controllers\ArticlesController');
+ $api->get('articles/{article}/edit','App\Http\Controllers\ArticlesController@edit')->name('articles.edit');
+ // });
 });
