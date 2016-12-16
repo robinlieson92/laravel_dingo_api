@@ -81,7 +81,12 @@ class ArticlesController extends Controller
     public function update(Request $request, $id)
     {
       //$articles = Article::find($id)->update($request->all());
-      Article::where("id", $id)->update($request->all());
+      Article::where("id", $id)
+        ->update([
+          "title" => $request->title,
+          "content" => $request->content,
+          "writer" => $request->writer
+          ]);
       $articles = Article::find($id);
       return response()->json($articles);
     }

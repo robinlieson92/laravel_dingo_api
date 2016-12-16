@@ -25,5 +25,7 @@ $api->version('v1', function ($api) {
  //     return "Hello...";
  $api->resource('articles','App\Http\Controllers\ArticlesController');
  $api->get('articles/{article}/edit','App\Http\Controllers\ArticlesController@edit')->name('articles.edit');
+ $api->resource('galleries','App\Http\Controllers\GalleriesController');
+ $api->get('galleries/{galleries}/edit','App\Http\Controllers\GalleriesController@edit')->name('galleries.edit');
  // });
 });

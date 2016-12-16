@@ -13,10 +13,16 @@ class GalleriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $galleries=Gallery::all();
-        return response()->json($galleries);
+      if($request->get('search')){
+          $galleries = Gallery::where("title", "ILIKE", "%{$request->get('search')}%")
+            ->orderBy('updated_at','desc')->paginate(5);
+      }
+      else {
+          $galleries = Gallery::orderBy('updated_at','desc')->paginate(5);
+      }
+      return response()->json($galleries);
     }
 
     /**
@@ -37,9 +43,10 @@ class GalleriesController extends Controller
      */
     public function store(Request $request)
     {
+      //dd($request->all());
       $gallery = new Gallery;
       $galleries = Gallery::save_image($gallery,$request);
-      Session::flash("notice", "Gallery success created");
+      // Session::flash("notice", "Gallery success created");
       return response()->json($galleries);
     }
 
@@ -81,7 +88,7 @@ class GalleriesController extends Controller
 
           //save image
           $galleries = Gallery::save_image($gallery,$request);
-          Session::flash("notice", "Gallery success updated");
+          // Session::flash("notice", "Gallery success updated");
           return response()->json($galleries);
     }
 
@@ -96,7 +103,7 @@ class GalleriesController extends Controller
       $directory = public_path()."/upload_image/".$id;
       File::deleteDirectory($directory);
       $galleries = Gallery::destroy($id);
-      Session::flash("notice", "Gallery success deleted");
+      // Session::flash("notice", "Gallery success deleted");
       return response()->json($galleries);
     }
 }
